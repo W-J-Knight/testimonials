@@ -10,11 +10,24 @@ export default function TestimonialsApp() {
   // };
   const [testimonials, setTestimonials] = useState("");
   const [items, setItems] = useState();
-
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/${testimonials}`)
-      .then((response) => response.json())
-      .then((json) => setItems(json));
+    // setTestimonials("Users");
+    // console.log(testimonials);
+    const fetchItems = async () => {
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/${testimonials}`
+      );
+
+      console.log(response);
+      try {
+        const json = await response.json();
+        setItems(json);
+      } catch (error) {
+        console.log("Not Json");
+        setItems(null);
+      }
+    };
+    fetchItems();
   }, [testimonials]);
   return (
     <div className="container m-auto">
