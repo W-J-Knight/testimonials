@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
@@ -10,28 +10,32 @@ export default function TestimonialsApp() {
   // };
   const [testimonials, setTestimonials] = useState("");
   const [items, setItems] = useState();
+  const effectRun = useRef(false)
+
   useEffect(() => {
     // setTestimonials("Users");
     // console.log(testimonials);
-    const fetchItems = async () => {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/${testimonials}`
-      );
+    if (effectRun.current === true){
+      const fetchItems = async () => {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/${testimonials}`
+        );
 
-      console.log(response);
-      try {
-        const json = await response.json();
-        setItems(json);
-      } catch (error) {
-        setItems(null);
-      }
+        console.log(response);
+        try {
+          const json = await response.json();
+          setItems(json);
+        } catch (error) {
+          setItems(null);
+        }
+      };
+      fetchItems();
     };
-    fetchItems();
-          return () => {
-            console.log(items);
-           
-          };
-  }, [testimonials]);
+    return () => {
+      // console.log(items);
+      effectRun.current = true;
+    }
+    }, [testimonials]);
   return (
     <div className="container m-auto">
       <Title text={"Testimonials App"} />
