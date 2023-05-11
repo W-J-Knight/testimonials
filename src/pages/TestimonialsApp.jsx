@@ -23,11 +23,14 @@ export default function TestimonialsApp() {
         const json = await response.json();
         setItems(json);
       } catch (error) {
-        console.log("Not Json");
         setItems(null);
       }
     };
     fetchItems();
+          return () => {
+            console.log(items);
+           
+          };
   }, [testimonials]);
   return (
     <div className="container m-auto">
